@@ -3,13 +3,13 @@ def clean_vcf_sample_names(input_vcf, output_vcf):
         for line in infile:
             if line.startswith('#CHROM'):
                 parts = line.strip().split('\t')
-                # The first 9 columns are VCF metadata; samples start from column 10
-                cleaned = parts[:9] + [s.replace('.paired.fastq.gz', '') for s in parts[9:]]
+                # First 9 fields are standard VCF fields
+                cleaned = parts[:9] + [s.removesuffix('paired.fastq.gz') for s in parts[9:]]
                 outfile.write('\t'.join(cleaned) + '\n')
             else:
                 outfile.write(line)
 
-# Usage example
-input_vcf = 'input.vcf'
-output_vcf = 'cleaned_output.vcf'
+# Usage
+input_vcf = 'eastern.MAFREM.recode.vcf'
+output_vcf = 'ecleaned_output2.vcf'
 clean_vcf_sample_names(input_vcf, output_vcf)
